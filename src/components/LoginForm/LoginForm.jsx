@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import UserSession from "../UserSession/UserSession";
 
 function LoginForm() {
+  const history = useHistory();
   const [state, setState] = useState({
     username: "",
     password: "",
@@ -24,6 +27,10 @@ function LoginForm() {
       const data = await response.json();
       if (data.key) {
         alert("Token: " + data.key);
+        UserSession.setAuthenticated(true);
+        UserSession.setUsername(state.username);
+        console.log(UserSession.getUsername())
+        history.push("/home");
       } else {
         alert("Datos inválidos");
       }
